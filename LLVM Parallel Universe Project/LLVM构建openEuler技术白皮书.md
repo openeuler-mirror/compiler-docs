@@ -5,15 +5,29 @@
 ### 2.1、LLVM架构描述
 LLVM采用了模块化架构设计，将编译过程分为多个独立阶段，如前端、优化和后端。这种设计使得LLVM更加灵活和可扩展，有助于各阶段模块分别演进创新，而通过统一的IR表示又将不同的模块有机的结合起来。目前LLVM项目包含多个子项目，如clang、flang、llvm、mlir、lld等。LLVM 9.0版本之后采取Apache License。
 
-<p align="center"><font face="宋体">图1 LLVM架构：模块化解耦架构，统一IR表示，助力架构级创新。</font></p>
-
 <div align=center>
 
-  <img align = "center" src="./images/image.png" alt="LLVM架构" width="500" height="400" >
+  <img align = "center" src="./images/LLVM架构.png" alt="LLVM架构" width="500" height="400" >
 
 </div>
+<p align="center"><font face="宋体">图1 LLVM架构：模块化解耦架构，统一IR表示，助力架构级创新 </font></p>
 
-### 2.2、LLVM子项目介绍
+### 2.2、LLVM子项目简介
+LLVM是一个伞形项目，包含模块化和可重复使用的编译器和工具链技术的集合。
+LLVM的主要子项目有：
+* LLVM Core：LLVM核心库提供了一个现代的独立于源码和目标的优化器，以及对许多流行CPU的代码生成支持。
+* Clang：LLVM原生的C-family语言编译器。
+* LLDB：构建在LLVM和Clang提供的库之上，以提供一个出色的原生调试器。
+* libc++和libc++ ABI：提供一个符合标准且高性能的C++标准库实现。
+* compiler-rt：编译器运行时库，包含一些低级别的代码生成的支持函数，也为动态测试工具提供运行时库。
+* MLIR：一种构建可重用和可扩展编译器基础设施的新方法。
+* OpenMP：提供了一个OpenMP运行时实现。
+* polly：使用多面体模型实现了一套缓存位置优化以及自动并行和矢量化。
+* libclc：OpenCL标准库的一个实现。
+* klee：符号执行虚拟机的一个实现。
+* LLD：LLVM原生链接器。
+* BOLT：后链接优化器，通过优化应用程序的代码布局来达成优化效果。
+
 ### 2.3、基于Clang组装一个完整工具链
 本章节参考[Assembling a Complete Toolchain](https://clang.llvm.org/docs/Toolchain.html)。
 Clang只是C-family编程语言完整工具链中的一个组件。为了组装一个完整的工具链，需要额外的工具和运行时库。Clang被设计为与用于其目标平台的现有工具和库进行交互操作，并且LLVM项目为许多这些组件提供了替代方案。
@@ -88,9 +102,78 @@ C++ ABI库提供了Itanium C++ ABI库部分的实现，包括[Itanium c++ ABI文
 * libcxxrt (PathScale)：这是Itanium C++ ABI规范的另一个实现。
 
 ## 3、LLVM平行宇宙计划
-### 3.1、项目描述
+23年3月份，软件所OERV团队和华为毕昇编译器团队在RISCV SIG和Compiler SIG联合在社区发起“LLVM平行宇宙计划”。该项目旨在通过社区化的方式推动LLVM工具链在openEuler社区的应用，包括构建openEuler系统。
+
+### 3.1、计划描述
+该计划已提交[oEEP](https://gitee.com/openeuler/TC/blob/master/oEEP/oEEP-0003%20LLVM%E5%B9%B3%E8%A1%8C%E5%AE%87%E5%AE%99%E8%AE%A1%E5%88%92--%E5%9F%BA%E4%BA%8ELLVM%E6%8A%80%E6%9C%AF%E6%A0%88%E6%9E%84%E5%BB%BAoE%E8%BD%AF%E4%BB%B6%E5%8C%85.md)，目前该oEEP状态处于`初始化`状态。
+
+<div align=center>
+
+  <img align = "center" src="./images/LLVM平行宇宙计划推进策略.png" alt="推进策略" width="600" height="280" >
+
+</div>
+<p align="center"><font face="宋体">图2 LLVM平行宇宙计划推进策略。</font></p>
+
+通过社区协作的方式推进两个策略：
+* **版本**：通过版本化构建，一方面厘清工作边界，另一方面可以让开发者、使用者对LLVM平行宇宙计划更加有信心。实际操作过程中可以通过“Preview版本”、“平行版本”、“正式版本”的方式循序渐进，形成一个“开发->发布->使用->问题反馈”的良性循环。
+* **长效机制**：与Compass-CI结合，构建upstream测试，解决软件包版本升级后需要重复解决LLVM构建&运行问题，同时有效的卷入上游开发者贡献，达成LLVM原生构建、构建结果可视化的目的，增强开发者、使用者信心。
+
 ### 3.2、价值与意义
+该计划致力于推动LLVM工具链在openEuler社区的应用，以获取如下收益：
+* 助力openEuler开箱竞争力更优。
+（1）协同openEuler使能更多高级优化，提升开箱性能、降低镜像体积。
+（2）代码静态&动态检查，提升openEuler社区代码质量，提升可靠性和安全性。
+* 助力openEuler繁荣生态。
+（1）支持仓颉/Rust等多种语言对接，繁荣openEuler社区开发者数量。
+（2）AI&异构支持，助力openEuler支持多样性算力生态。
+（3）支持LLVM社区开发者无缝对接openEuler，促进openEuler竞争力和生态创新。
+
 ## 4、技术方案
+### 4.1、openEuler软件包构建方式
+openEuler软件包非常丰富，可以分为内核态软件包（南向）和用户态软件包（北向）。截止24.03 LTS版本，用户态软件包有3.6W+，而且仍在不断增加中。
+当前（24.03 LTS之前），openEuler软件包默认的构建编译器是GNU工具链。
+
+### 4.2、备选技术方案可行性分析
+[Clang编译器](https://clang.llvm.org/)的一个设计需求是兼容GCC，所以理论上是可以替换GCC而构建不同的软件包。不过，Clang编译器作为一个后发者，存在一些软件包无法直接构建通过的情况，基于这个前提，软件包切换构建编译器有如下两个维度需要考虑：
+* Clang构建软件包的范围。不同的版本上构建的软件包范围有哪些？
+* Clang工具链的组件如何选择。参考2.3章节的描述组装一个完整的工具链。
+#### 4.2.1、备选方案一
+方案描述：openEuler**全部的软件包**基于Clang构建，Clang编译器工具链**全部选用LLVM原生的组件**。
+方案可行性分析：openEuler存在大量软件包（3.6W+），同时存在个别软件包暂无法直接基于Clang构建（如glibc）。
+方案结论：短期内不可行。
+
+#### 4.2.2、备选方案二
+方案描述：openEuler**部分软件包**基于Clang构建，Clang编译器工具链**全部选用LLVM原生的组件**。
+方案可行性分析：基于2.3.8章节“注意”部分的描述，如果一个程序同时使用libstdc++和libc++时，必须非常小心地处理两个标准库的应用边界。更有甚者，一个程序中不允许同时存在两个C++ABI库。
+方案结论：存在GCC和Clang混合使用的情况下，该方案不可行。
+
+#### 4.2.3、备选方案三
+方案描述：openEuler**部分软件包**基于Clang构建，Clang编译器工具链采用`Clang+llvm+lld+GNU运行时库`组合。
+方案可行性分析：GCC和Clang混合构建，此方案也是业界目前已采用的方案，是Clang编译器的实际应用场景。
+方案结论：方案总体是可行的，需要进一步进行白盒分析和黑盒验证。
+
+#### 4.2.4、kernel态软件包
+内核态的软件包相对用户态特殊，内核态软件包包含kernel及会构建出`.ko`的软件包。根据[Linux内核驱动接口](https://www.kernel.org/doc/html/latest/process/stable-api-nonsense.html)描述了两个概念：内核二进制接口和内核源码接口
+对于内核源码接口，文章中进行了非常详尽的阐述，这里不赘述。
+我们这里需要考虑的是内核二进制接口，因为不管是GCC还是Clang构建，我们首先要保证源码的一致性，所以源码接口应该是一致的。关于内核二进制接口，文章中有如下描述：
+> Assuming that we had a stable kernel source interface for the kernel, a binary interface would naturally happen too, right? Wrong. Please consider the following facts about the Linux kernel:
+>
+> * Depending on the version of the C compiler you use, different kernel data structures will contain different alignment of structures, and possibly include different functions in different ways (putting functions inline or not.) The individual function organization isn’t that important, but the different data structure padding is very important.
+
+即，当使用不同编译器的（甚至不同编译器版本）的情况，会出现二进制不兼容的情况，这是因为kernel中可能会用到C语言不可移植的特性（如变成数组）。值得欣慰的是，近些年[ClangBuiltLinux项目](https://clangbuiltlinux.github.io/)解决了这些问题。但使用不同的编译器版本构建kernel，仍可能会导致KABI不一致。
+综上所述，较好的方案是用同一个编译器(版本)构建整个kernel态软件包。
+
+### 4.3 建议技术方案
+Kernel态使用LLVM构建，用户态软件包采用GCC和LLVM混编。
+编译器组件采用Clang+llvm+llvm as+lld+GNU运行时库的方案。
+
+<div align=center>
+
+  <img align = "center" src="./images/技术方案.png" alt="推进策略" width="400" height="400" >
+
+</div>
+<p align="center"><font face="宋体">图3 LLVM构建openEuler软件包技术方案。</font></p>
+
 ## 5、关键技术挑战
 ## 6、应用场景
 ## 7、展望
