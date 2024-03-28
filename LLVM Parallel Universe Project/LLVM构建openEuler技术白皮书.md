@@ -67,7 +67,7 @@ C-family程序需要许多不同的运行时库提供不同的支持。Clang将�
 * compiler-rt (LLVM): [LLVM项目的编译器运行时库](https://compiler-rt.llvm.org/)提供了一组完整的运行时库函数。
 * libgcc_s (GNU)：[GCC编译器的运行时库](https://gcc.gnu.org/onlinedocs/gccint/Libgcc.html)可以用来代替`compiler-rt`。但是，它缺少几个LLVM可能调用的函数，特别是在使用Clang的内置函数家族的`__builtin_*_overflow`时。
 
-可以通过`rtlib=libgcc`或`--rtlib=libgcc`来切换编译器运行时库。
+可以通过`--rtlib=compiler-rt`或`--rtlib=libgcc`来切换编译器运行时库。
 ##### 2.3.5.2、原子库
 如果您的程序使用了原子操作，编译器无法直接翻译到机器指令（因为没有合适的机器指令或不知道操作数如何适当对齐），将会生成对运行时库__atomic_*函数的调用。这些程序需要一个包含这些原子函数的运行时库。
 * compiler-rt (LLVM)：LLVM项目的原子库的实现包含在`compiler-rt`中。
