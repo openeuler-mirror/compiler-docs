@@ -37,4 +37,4 @@ openEuler 24.03 LTS是基于6.6内核的长周期LTS版本，面向服务器、�
 | 31  | classic-flang          |  |
 | 32  | gn                     | 1.0.0 |
 | 33  | tinytoml               | 0.4 | 
-| 34  | optimized-routines     | 21.02 |
+| 34  | optimized-routines     | 24.01 |
