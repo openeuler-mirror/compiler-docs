@@ -1,36 +1,28 @@
 # compiler-docs
 
-#### Description
-A repo used to store documents from the compielr sig
+### Description
+**Compiler-docs** are used to store documentation related to [OpenEuler Compiler SIG](https://gitee.com/openeuler/community/tree/master/sig/Compiler), including but not limited to feature introduction documents, LLVM parallel universe project, conference/salon materials, release version introductions, bi-weekly shared materials, and more.
 
-#### Software Architecture
-Software architecture description
+## bi-weekly meeting
+The Compiler SIG holds an online meeting every Tuesday at 10:00 AM (UTC+8).
+Meeting minutes address:
+https://etherpad.openeuler.org/p/Compiler-meetings
 
-#### Installation
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Instructions
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Contribution
-
+## Contribution
 1.  Fork the repository
 2.  Create Feat_xxx branch
 3.  Commit your code
 4.  Create Pull Request
 
+## Note
+1. PPT, Word and other documents that are easy to tamper with, please convert them into PDF and upload them to our warehouse
+2. Please pay attention to the legal and compliance issues of the uploaded documents
 
-#### Gitee Feature
+## Compiler SIG Wechat
+Add the assistant to join the Compiler SIG WeChat group.
 
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+<div align=center>
+
+  <img align = "center" src="./.images/微信QR.png" alt="微信QR" width="400" height="400" >
+
+</div>
