@@ -58,6 +58,7 @@ Clang可以配置为使用几个不同的链接器其中一个：
 * GNU gold
 * LLVM lld
 * MSVC link.exe
+
 [LLVM lld](https://lld.llvm.org/)原生支持链接时优化，使用gold时通过一个[链接器插件](https://llvm.org/docs/GoldPlugin.html)支持链接时优化。默认链接器在不同的目标机器上是不同的，可以通过`-fuse-ld=<linker name>`标志来切换。
 #### 2.3.5、运行时库
 C-family程序需要许多不同的运行时库提供不同的支持。Clang将隐式地链接每个运行时库的合适实现。
