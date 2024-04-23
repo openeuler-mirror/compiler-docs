@@ -107,7 +107,7 @@ dprintf (int __fd, const char *__restrict __fmt, ...)
 ```abap
 clang main.c selfdef.c -O2 -Wp,-D_FORTIFY_SOURCE=2
 ```
-系统中已经有一个`dprintf`宏定义，而`./selfdef.h`文件中的声明就会冲突，从而报告以上错误。
+系统中已经有一个`dprintf`宏定义，和`./selfdef.h`文件中的声明冲突，导致编译错误。
 
 ## 3、问题修改建议
 由以上分析可以想到，需要根据应用中实际情况来修改，确保修前后应用仍然能链接正确的定义。
