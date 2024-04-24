@@ -96,7 +96,7 @@ dprintf (int __fd, const char *__restrict __fmt, ...)
 在编译过程中，需要设置`D_FORTIFY_SOURCE`宏才能启用`FORTIFY_SEOURCE`。实现了两个级别的检查。将宏设置为1将启用一些检查（手册页上说“执行不应改变符合程序行为的检查”），而将其设置为2将增加一些检查。
 
 ### 2.2.2、__va_arg_pack
-这个是GCC处理变参函数时[引入的内建函数](https://gcc.gnu.org/onlinedocs/gcc-4.7.2/gcc/Constructing-Calls.html)，LLVM社区没有接纳对[这个GNU扩展的支持]（https://reviews.llvm.org/D57635）。
+这个是GCC处理变长参函数时[引入的内建函数](https://gcc.gnu.org/onlinedocs/gcc-4.7.2/gcc/Constructing-Calls.html)，LLVM社区没有接纳对[这个GNU扩展的支持]（https://reviews.llvm.org/D57635）。
 
 ### 2.2.3、问题总结及根因确认
 （1）系统对`dprintf`的定义有两种。
