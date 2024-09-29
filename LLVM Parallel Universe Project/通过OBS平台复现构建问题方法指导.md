@@ -65,7 +65,7 @@ osc up -S
 mv _service service;
 for file in `ls | grep -v .osc`;do new_file=${file##*:};mv $file $new_file;done || true
 
-# useing osc to compile
+# using osc to compile
 osc build -j50  --nochecks  --root=$(pwd)/build-clang standard_aarch64 2>&1|tee clang-log
 ```
 3. 生成patch、修改spec构建验证。
