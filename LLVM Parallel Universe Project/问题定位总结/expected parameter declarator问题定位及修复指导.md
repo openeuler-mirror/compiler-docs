@@ -93,7 +93,7 @@ dprintf (int __fd, const char *__restrict __fmt, ...)
 
 ### 2.2.1、-D_FORTIFY_SOURCE=2
 [FORTIFY_SOURCE](https://www.redhat.com/en/blog/security-technologies-fortifysource)为一些内存和字符串函数提供了轻量级编译和运行时保护。在GCC中，`FORTIFY_SOURCE`通常通过将一些字符串和内存函数替换为它们的`*_chk`对应函数（内置函数）来工作。这些函数进行必要的计算以确定溢出。如果发现溢出，程序将中止；否则控制被传递到相应的字符串或存储器操作函数。
-在编译过程中，需要设置`D_FORTIFY_SOURCE`宏才能启用`FORTIFY_SEOURCE`。实现了两个级别的检查。将宏设置为1将启用一些检查（手册页上说“执行不应改变符合程序行为的检查”），而将其设置为2将增加一些检查。
+在编译过程中，需要设置`D_FORTIFY_SOURCE`宏才能启用`FORTIFY_SOURCE`。实现了两个级别的检查。将宏设置为1将启用一些检查（手册页上说“执行不应改变符合程序行为的检查”），而将其设置为2将增加一些检查。
 
 ### 2.2.2、__va_arg_pack
 这个是GCC处理变长参数函数时[引入的内建函数](https://gcc.gnu.org/onlinedocs/gcc-4.7.2/gcc/Constructing-Calls.html)，LLVM社区没有接纳对[这个GNU扩展的支持]（https://reviews.llvm.org/D57635）。
