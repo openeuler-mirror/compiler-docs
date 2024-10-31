@@ -4,7 +4,7 @@
 
 openEuler：[backport 3 commits，and fix changelog，to support build with clang · Pull Request !58 · src-openEuler/zziplib - Gitee.com](https://gitee.com/src-openeuler/zziplib/pulls/58)
 
-上游社区：https://github.com/gdraheim/zziplib/pull/141)
+上游社区：https://github.com/gdraheim/zziplib/pull/141
 
 # 问题一：%changelog entries must start with \*问题
 
