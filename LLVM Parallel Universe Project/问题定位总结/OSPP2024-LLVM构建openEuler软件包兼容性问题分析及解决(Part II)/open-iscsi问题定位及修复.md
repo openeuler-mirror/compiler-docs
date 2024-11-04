@@ -222,7 +222,7 @@ clang比gcc检查更加严格，检测出了给位域赋值时可能出现的隐
 
 方案二：
 
-改为适用bool类型赋值，而不是1
+改为使用bool类型赋值，而不是1
 
 修改`qtask->allocated = 1;`为`qtask->allocated = true;`
 
