@@ -5,7 +5,7 @@
 出自：https://gitee.com/src-openeuler/perl-XML-LibXML(openEuler-24.03-LTS)
 ```
 68s] perl-libxml-mm.c:142:18:
-incompatible fuction pointer types passing 'void (void*, void*, mmlchar *)’(aka'void (wvoid*, void*, unsigned char t)’) to parameter of type'mmashscamner'(aka
+incompatible function pointer types passing 'void (void*, void*, mmlchar *)’(aka'void (wvoid*, void*, unsigned char t)’) to parameter of type'mmashscamner'(aka
 void (*)(void *, void *, const unsigned char *)’)[-Wincompatible-function pointer types]
 68s]
 142
