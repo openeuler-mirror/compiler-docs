@@ -47,7 +47,7 @@ openEuler：[fix 2 undeclared functions,and changelog format,support clang build
 
 ```c
 * Wed Nov 22 2023 wangxiaomeng <wangxiaomeng@kylinos.cn> - 8:2.03.22-3
-- lvmlockd: add suport for loongarch64
+- lvmlockd: add support for loongarch64
 
 * Tue Dec 19 2023 wangzhiqiang <wangzhiqiang95@huawei.com> - 8:2.03.22-2
 - dm-event: release buffer on dm_event_get_version
@@ -56,7 +56,7 @@ openEuler：[fix 2 undeclared functions,and changelog format,support clang build
 - update to version 2.03.22
 ```
 
-问题出在[lvmlockd: add suport for loongarch64 · dee4806 · 云沧/lvm2 - Gitee.com](https://gitee.com/yuncang123/lvm2/commit/dee4806fb29598db7cbd4d9abe56db348cc79baa)这个commit在`Tue Jan 9 2024`提交，而changelog里写的是`Wed Nov 22 2023`，导致其提交比上一个晚，但是changelog里写的日期比上一个早
+问题出在[lvmlockd: add support for loongarch64 · dee4806 · 云沧/lvm2 - Gitee.com](https://gitee.com/yuncang123/lvm2/commit/dee4806fb29598db7cbd4d9abe56db348cc79baa)这个commit在`Tue Jan 9 2024`提交，而changelog里写的是`Wed Nov 22 2023`，导致其提交比上一个晚，但是changelog里写的日期比上一个早
 
 ### 2.2、问题总结及根因确认
 
