@@ -1,9 +1,9 @@
 # LLVM构建openEuler技术白皮书
 ## 1、简介
 ## 2、LLVM编译器工具链介绍
-[LLVM项目](https://llvm.org/)是一个[开源的编译器基础设施项目](https://github.com/llvm/llvm-project)，它提供了一套用于编译程序的工具链和库。近年来，LLVM项目越来越得到开发者的关注，社区非常活跃，商业公司纷纷基于LLVM项目推出商业编译器，OS社区也积极拥抱LLVM技术栈。[openEuler社区上的LLVM项目](https://gitee.com/openeuler/llvm-project)作为一个下游项目，致力于在开源LLVM基础上与openEuler协同创新，包括兼容性、性能和开发态安全编码特性，为openEuler上的编译器提供第二选择，并适配多种硬件平台，如鲲鹏、飞腾、龙芯等，充分释放多样性硬件算力。
+[LLVM项目](https://llvm.org/)是一个[开源的编译器基础设施项目](https://github.com/llvm/llvm-project)，它提供了一套用于编译程序的工具链和库。近年来，LLVM项目得到开发者越来越多的关注，社区非常活跃，商业公司纷纷基于LLVM项目推出商业编译器，OS社区也积极拥抱LLVM技术栈。[openEuler社区上的LLVM项目](https://gitee.com/openeuler/llvm-project)作为一个下游项目，致力于在开源LLVM基础上与openEuler协同创新，包括兼容性、性能和开发态安全编码特性，为openEuler上的编译器提供第二选择，并适配多种硬件平台，如鲲鹏、飞腾、龙芯等，充分释放多样性硬件算力。
 ### 2.1、LLVM架构描述
-LLVM采用了模块化架构设计，将编译过程分为多个独立阶段，如前端、优化和后端。这种设计使得LLVM更加灵活和可扩展，有助于各阶段模块分别演进创新，而通过统一的IR表示又将不同的模块有机的结合起来。目前LLVM项目包含多个子项目，如clang、flang、llvm、mlir、lld等。LLVM 9.0版本之后采取Apache License。
+LLVM采用了模块化架构设计，将编译过程分为多个独立阶段，如前端、优化和后端。这种设计使得LLVM更加灵活和可扩展，有助于各阶段模块分别演进创新，而通过统一的IR表示又将不同的模块有机地结合起来。目前LLVM项目包含多个子项目，如clang、flang、llvm、mlir、lld等。LLVM 9.0版本之后采取Apache License。
 
 <div align=center>
 
@@ -117,7 +117,7 @@ C++ ABI库提供了Itanium C++ ABI库部分的实现，包括[Itanium c++ ABI文
 
 通过社区协作的方式推进两个策略：
 * **版本**：通过版本化构建，一方面厘清工作边界，另一方面可以让开发者、使用者对LLVM平行宇宙计划更加有信心。实际操作过程中可以通过“Preview版本”、“平行版本”、“正式版本”的方式循序渐进，形成一个“开发->发布->使用->问题反馈”的良性循环。
-* **长效机制**：与Compass-CI结合，构建upstream测试，解决软件包版本升级后需要重复解决LLVM构建&运行问题，同时有效的卷入上游开发者贡献，达成LLVM原生构建、构建结果可视化的目的，增强开发者、使用者信心。
+* **长效机制**：与Compass-CI结合，构建upstream测试，解决软件包版本升级后需要重复解决LLVM构建&运行问题，同时有效地卷入上游开发者贡献，达成LLVM原生构建、构建结果可视化的目的，增强开发者与使用者的信心。
 
 ### 3.2、价值与意义
 该计划致力于推动LLVM工具链在openEuler社区的应用，以获取如下收益：
