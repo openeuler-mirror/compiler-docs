@@ -24,7 +24,7 @@ open-iscsi.spec中：
 
 `%make_build OPTFLAGS="%{optflags} %{?__global_ldflags} -DUSE_KMOD -lkmod" LIB_DIR=%{_libdir}`
 
-在open-iscisi-2.1.5/Makefile中：
+在open-iscsi-2.1.5/Makefile中：
 
 ```c
 # Compatibility: parse old OPTFLAGS argument
