@@ -1,0 +1,12 @@
+label: LLVM用户指南
+isManual: true
+description: LLVM for openEuler 编译器基于开源 LLVM 开发
+sections:
+  - label: LLVM 反馈优化用户指南
+    href: ./llvm_pgo_user_guide.md
+  - label: 内核反馈优化特性用户指南
+    href: ./kernel_pgo_user_guide.md
+  - label: GNU 兼容性用户指南
+    href: ./gnu_compatibility_user_guide.md
+  - label: 新增架构支持
+    href: ./more_architecture_supported.md
