@@ -1,0 +1,6 @@
+label: BiSheng-Autotuner 用户指南
+isManual: true
+description: BiSheng-Autotuner 是一个自动编译调优工具，与支持调优的编译器（如 LLVM for openEuler、GCC for openEuler）配合使用
+sections:
+  - label: BiSheng-Autotuner 使用手册
+    href: ./bisheng_autotuner_user_guide.md
