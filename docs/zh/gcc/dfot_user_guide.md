@@ -66,7 +66,8 @@ cp configs/dfot.ini /etc/dfot/
 | TUNER_CHECK_PERIOD            | `[10, max]`                         | 可用   | 优化插件检查时间间隔，每隔一段时间收集采样插件数据并决定是否进行优化，单位ms                                                |
 | TUNER_PROFILE_DIR             | 按实际需要确定                             | 可用   | 采样数据存放位置，profile文件被命名为`[app_name]_[full_path_hash]_[threshold].profile`                |
 | TUNER_OPTIMIZING_STRATEGY     | `[0, 1]`                            | 可用   | 优化策略，0表示只优化一次，1表示只要采样信息在刷新，可以持续多次优化                                                    |
-| TUNER_OPTIMIZING_CONDITION    | `[0, 2]`                            | 不可用  | 触发优化的条件，0表示应用退出后即开始优化，1表示低负载时优化，2表示应用退出且低负载时优化，当前仅支持0                                  |
+| TUNER_OPTIMIZING_CONDITION    | `[0, 2]`                            | 不可用  | 触发优化的条件，0表示应用退出后即开始优化，1表示低负载时优化，2表示应用退出且低负载时优化，当前仅支持0 |
+
 应用配置： [app]
 
 | 配置项                           | 值范围            | 是否可用 | 说明                                                                                         |
