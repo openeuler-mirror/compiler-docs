@@ -219,3 +219,61 @@ Arm 相关指令合并优化，实现32位复杂组合的64位整形乘法逻辑
 在选项中加入`-O3 -flto -flto-partition=one -fipa-reorder-fields -fipa-struct-sfc`即可，可在此基础上使用`-fipa-struct-sfc-bitfield`、`-fipa-struct-sfc-shadow`开启额外优化。
 
 注：`-fipa-struct-sfc`选项，需要在`-O3 -flto -flto-partition=one`全局同时开启以及开启`-fipa-reorder-fields`或`-fipa-struct-reorg>=2`的基础上才能使能。
+
+### -fipa-struct-dfc
+
+#### 说明
+
+动态压缩结构体成员，克隆程序路径并启发式压缩结构体大小，根据运行时检查选择运行路径，以提高 cache 命中率。
+
+#### 使用方法
+
+在选项中加入`-O3 -flto -flto-partition=one -fipa-reorder-fields -fipa-struct-dfc`即可，可在此基础上使用`-fipa-struct-dfc-bitfield`、`-fipa-struct-dfc-shadow`开启额外优化。
+
+注：`-fipa-struct-dfc`选项，需要在`-O3 -flto -flto-partition=one`全局同时开启以及开启`-fipa-reorder-fields`或`-fipa-struct-reorg>=2`的基础上才能使能。
+
+### -fipa-alignment-propagation
+
+#### 说明
+
+分析并传播局部变量地址对齐值，优化按位与运算。
+
+#### 使用方法
+
+在选项中加入`-O3 -fipa-alignment-propagation`即可。
+
+注：`-fipa-alignment-propagation`选项，需要在`-O3`开启的基础上才使能。
+
+### -fipa-localize-array
+
+#### 说明
+
+将由 calloc 分配的全局指针变量转换为局部变量。
+
+#### 使用方法
+
+在选项中加入`-O3 -fipa-localize-array`即可。
+
+注：`-fipa-localize-array`选项，需要在`-O3`开启的基础上才使能。
+
+### -fipa-array-dse
+
+#### 说明
+
+分析数组在函数之间的传递情况以及在被调用函数中的使用情况，消除冗余的数组写入。
+
+#### 使用方法
+
+在选项中加入`-O3 -fipa-array-dse`即可。
+
+注：`-fipa-array-dse`选项，需要在`-O3`开启的基础上才使能。
+
+### -ffind-with-sve
+
+#### 说明
+
+识别 `std::find` 函数调用，尝试使用 SVE 指令优化。
+
+#### 使用方法
+
+在选项中加入 `-ffind-with-sve` 即可。
