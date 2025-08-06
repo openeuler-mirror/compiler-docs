@@ -1,0 +1,14 @@
+label: GCC User Guide
+isManual: true
+description: GCC for openEuler builds upon the open source GCC, with a primary focus on optimizing C, C++, and Fortran languages
+sections:
+  - label: Kernel FDO User Guide
+    href: ./kernel_fdo_user_guide.md
+  - label: LTO User Guide
+    href: ./lto_user_guide.md
+  - label: GCC Basic Performance Optimization User Guide
+    href: ./gcc_basic_performance_optimization_user_guide.md
+  - label: Alternative GCC 14 User Guide
+    href: ./gcc_14_secondary_version_compilation_toolchain_user_guide.md
+  - label: PIN User Guide
+    href: ./pin_user_guide.md
