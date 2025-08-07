@@ -1,0 +1,18 @@
+label: GCC用户指南
+isManual: true
+description: GCC for openEuler 编译器基于开源 GCC 开发，聚焦于C、C++、Fortran语言的优化
+sections:
+  - label: 内核反馈优化特性
+    href: ./kernel_fdo_user_guide.md
+  - label: 链接时优化特性
+    href: ./lto_user_guide.md
+  - label: GCC优化特性
+    href: ./gcc_optimization_user_guide.md
+  - label: GCC14副版本编译工具链
+    href: ./gcc_14_secondary_version_compilation_toolchain_user_guide.md
+  - label: GCC插件框架特性
+    href: ./pin_user_guide.md
+  - label: 编译时间优化特性
+    href: ./compile_time_optimization_user_guide.md
+  - label: 动态反馈优化框架
+    href: ./dfot_user_guide.md
