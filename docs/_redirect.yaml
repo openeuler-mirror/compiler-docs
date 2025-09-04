@@ -1,0 +1,4 @@
+/docs/zh/llvm_test/gnu_compatibility_user_guide.md: /docs/zh/llvm/gnu_compatibility_user_guide.md
+/docs/zh/llvm_test/kernel_pgo_guide.md: /docs/zh/llvm/kernel_pgo_user_guide.md
+/docs/zh/GCC_test/dfot_user_guide.md: /docs/zh/gcc/dfot_user_guide.md
+/docs/zh/gcc/kernel_fdo_user_guide.md: /docs/zh/gcc/kernel_fdo_user_guide.md
