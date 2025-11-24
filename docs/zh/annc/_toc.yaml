@@ -1,0 +1,6 @@
+label: ANNC使用手册
+isManual: true
+description: ANNC是专注于加速神经网络计算的编译器，加速推荐和大模型的推理性能，支持主流开源推理框架接入。
+sections:
+  - label: ANNC使用手册
+    href: ./annc_user_manual.md
