@@ -62,8 +62,34 @@ LLVM 的 Indirect Call Promotion (ICP) 优化通过反馈信息将间接函数�
 
 当前语言支持 C/C++。
 
+`-mllvm -no-sink-prtadd-post-load=<true|false>`
+
+后端 Machine Sink Pass 会将 GEP 指令下沉到循环末尾，导致下一迭代 load 指令延迟增加。该选项避免此类指令下沉，默认关闭。
+
+当前语言支持 C/C++，后端支持 AArch64。
+
+`-mllvm -aarch64-endianness-opts=<true|false>`
+
+减少在小端和大端字节序之间切换时生成的 load 和 store 指令的数量，以提升 mysql 等大端字节序存储数据的场景性能，默认关闭。
+
+当前语言支持 C/C++，后端支持 AArch64。
+
 # LLVM for openEuler 功能选项列表
 
 `-fgcc-compatible`
 
 开启 LLVM for openEuler 对 GCC 编译器的兼容性特性，包括但不限于对编译器不识别的 GCC 功能性选项的告警严重程度降级至 warning。
+
+`clang-tidy --checks='-*,BSCompatibility*' --export-details=fix.yaml t.c`
+
+支持使用 clang-tidy 工具识别部分 clang 不兼容的 GNU 拓展写法，产生告警并给出修改建议。
+
+同时提供 share/clang/clang-tidy-stats.py 脚本将修改建议输出为表格。
+
+`clang-tidy-stats.py --checks='-*,BSCompatibility*' --export-stats=stats.xlsx t.c`
+
+可以识别并告警，将代码信息和修改建议输出到 stats.xlsx 文件中。
+
+`clang-tidy-stats.py --args -export-stats=stats.xlsx -export-stats-input=fix.yaml`
+
+可以将 fix.yaml 转化为 stats.xlsx。
