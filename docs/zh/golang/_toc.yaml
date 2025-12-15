@@ -1,0 +1,6 @@
+label: Go用户指南
+isManual: true
+description: Go for openEuler 编译器基于开源 Go 开发，聚焦于golang语言的优化
+sections:
+  - label: Go优化介绍
+    href: ./golang_user_guide.md
