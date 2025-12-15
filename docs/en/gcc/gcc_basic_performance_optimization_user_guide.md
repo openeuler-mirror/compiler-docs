@@ -183,3 +183,15 @@ Enhances data flow analysis for loops with consecutive memory reads by inserting
 Add the options `-O3 -ftree-slp-transpose-vectorize` to enable the optimization.
 
 Note: The `-ftree-slp-transpose-vectorize` option requires `-O3` to be enabled.
+
+### -floop-sve-mode-opt
+
+#### Description
+
+Through static code feature analysis, identify special scenarios. When the conditions are confirmed to be met, add new SVE instruction set optimization opportunities to achieve performance improvement.
+
+#### Usage
+
+Add the options `-O3 -floop-sve-mode-opt` to enable the optimization.
+
+Note: The `-floop-sve-mode-opt` option requires `-O3` and sve in `-march` to be enabled.
