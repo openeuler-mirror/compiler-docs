@@ -1,4 +1,4 @@
-# BiSheng-Autotuner 使用手册
+# BiSheng-Autotuner 用户指南
 
 ## BiSheng-Autotuner 介绍
 
