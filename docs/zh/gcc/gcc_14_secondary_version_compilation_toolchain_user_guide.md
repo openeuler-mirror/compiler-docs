@@ -6,7 +6,7 @@
 
 这样的选择会带来如下问题。首先，许多的硬件特性需要基础 GCC 工具链的支持，选择非最新版本的 GCC 会导致新特性无法及时在新发布的操作系统上使能。另外，某些用户倾向使用最新版本的编译器使能最新特性，这些特性相较于低版本编译器会带来部分性能提升。
 
-因此，为了使能多样算例新特性，满足不同用户对不同硬件特性支持的需求，在 openEuler 24.09 版本推出 openEuler GCC Toolset 工具链，这是一个专为 openEuler 系统设计的 GCC 多版本编译工具链，该工具链提供一个高于系统主 GCC 版本的副版本 GCC 编译工具链，为用户提供了更加灵活且高效的编译环境选择。通过使用 openEuler GCC Toolset 14 多版本编译工具链，用户可以轻松地在不同版本的 GCC 之间进行切换，以便充分利用新硬件特性，同时享受到 GCC 最新优化所带来的性能提升。
+因此，为了使能多样算例新特性，满足不同用户对不同硬件特性支持的需求，在 openEuler 24.09 版本推出 openEuler GCC Toolset 工具链，这是一个专为 openEuler 系统设计的 GCC 多版本编译工具链，该工具链提供一个高于系统主 GCC 版本的副版本 GCC 编译工具链，为用户提供了更加灵活且高效的编译环境选择。通过使用 openEuler GCC Toolset 14 多版本编译工具链，用户可以轻松地在不同版本的 GCC 之间进行切换，以便充分利用新硬件特性，同时享受到 GCC 最新优化所带来的性能提升。同时为了更好的保证使用兼容性，多版本GCC中将新增的GLIBCXX符号抽取为静态库形式，同原始的动态库与应用一起进行链接，从而增强多版本GCC构建出的应用在不同环境下的使用兼容性。
 
 ## 方案设计
 
@@ -16,37 +16,64 @@ GCC 编译工具链是一套由 GNU 开发和维护的开源编译器集合，�
 
 1. GCC 编译器（gcc/g++/gfrotran 等）：
 
-    * 作用：GCC 编译器是工具链的核心，负责完成预处理和编译过程，将源代码转换成汇编代码或中间表示。对于 C++ 代码，g++ 是 GCC 的 C++ 编译器前端，除了完成编译工作外，还会自动链接 C++ 标准库。
+   * 作用：GCC 编译器是工具链的核心，负责完成预处理和编译过程，将源代码转换成汇编代码或中间表示。对于 C++ 代码，g++ 是 GCC 的 C++ 编译器前端，除了完成编译工作外，还会自动链接 C++ 标准库。
 
 2. Binutils 工具集：
 
-    * 包含工具：链接器（ld）、汇编器（as）、目标文件格式查看器（readelf）、符号查看器（nm）、目标文件格式转换工具（objcopy）、反汇编工具（objdump）、尺寸查看工具（size）等。
-    * 作用：这些工具在编译过程中起辅助作用，如将汇编代码转换成机器码（汇编器）、将多个目标文件链接成可执行文件（链接器）、查看目标文件或可执行文件的信息（readelf、nm、objdump）等。
+   * 包含工具：链接器（ld）、汇编器（as）、目标文件格式查看器（readelf）、符号查看器（nm）、目标文件格式转换工具（objcopy）、反汇编工具（objdump）、尺寸查看工具（size）等。
+   * 作用：这些工具在编译过程中起辅助作用，如将汇编代码转换成机器码（汇编器）、将多个目标文件链接成可执行文件（链接器）、查看目标文件或可执行文件的信息（readelf、nm、objdump）等。
 
 3. glibc 库：
 
-    * 作用：glibc 是 GNU C Library 的缩写，是 GNU 组织为 GNU 系统以及 Linux 系统编写的 C 语言标准库。它包含了 C 语言中常用的标准函数，如 printf、malloc 等，是编译 C 语言程序时必不可少的部分。
+   * 作用：glibc 是 GNU C Library 的缩写，是 GNU 组织为 GNU 系统以及 Linux 系统编写的 C 语言标准库。它包含了 C 语言中常用的标准函数，如 printf、malloc 等，是编译 C 语言程序时必不可少的部分。
 
 4. 其他辅助工具：
 
-    * 调试器（gdb）：用于调试可执行文件，帮助开发者定位和解决程序中的错误。
-    * 性能分析工具（gprof）：用于分析程序的性能，帮助开发者优化代码。
+   * 调试器（gdb）：用于调试可执行文件，帮助开发者定位和解决程序中的错误。
+   * 性能分析工具（gprof）：用于分析程序的性能，帮助开发者优化代码。
 
 ### 工具链选型
 
 在编译过程中，工具链中的软件组件对编译结果具有直接影响。具体而言，GCC、binutils 以及 glibc是其核心要素。glibc 作为 C 语言标准库，其选型通常与操作系统内核版本紧密绑定，不轻易进行更改。本工具链仅包含 GCC 和 binutils 两款软件来满足副版本编译需求。
 
-当前最新的 GCC release 版本为 gcc-14.2.0，因此 openEuler GCC Toolset 工具链选型 的 GCC 的版本为gcc-14.2.0。
+当前最新的 GCC release 版本为 gcc-14.3.0，因此 openEuler GCC Toolset 工具链选型 的 GCC 的版本为gcc-14.3.0。
 
 至于 binutils，openEuler 24.09 的默认 binutils 为 2.41 版本，而最新的 GCC-14 官方推荐搭配 binutils-2.42 使用，因此本工具链的 binutils 的版本选择 binutils-2.42。
 
-基于此考量，openEuler GCC Toolset 副版本工具链引入 gcc-14.2.0 和 binutils-2.42，此举旨在确保编译环境的稳定性和效率，同时避免不必要的复杂性，力求在保障编译结果质量的同时，优化用户的使用体验。后期待 gcc-14.3.0 在上游社区 release 后，同步更新此工具链 GCC 版本。
+基于此考量，openEuler GCC Toolset 副版本工具链引入 gcc-14.3.0 和 binutils-2.42，此举旨在确保编译环境的稳定性和效率，同时避免不必要的复杂性，力求在保障编译结果质量的同时，优化用户的使用体验。后期待 gcc-14.3.0 在上游社区 release 后，同步更新此工具链 GCC 版本。
 
 ### 架构设计
 
-为区分于默认工具链安装，并防止 openEuler GCC Toolset 副版本编译工具链安装与默认编译工具链安装之间的依赖库冲突，将此工具链命名为 gcc-toolset-14，其软件包名均以前缀`gcc-toolset-14-`开头，后接原有工具链软件包名。同时，考虑到默认编译工具链安装路径为`/usr`，为避免路径重叠，特将 gcc-toolset-14 安装路径设定为`/opt/openEuler/gcc-toolset-14/`。为了与开源 GCC 做出区分，也便于后期合入更多 openEuler 社区特性，gcc-toolset-14-gcc 的版本设置为 14.2.1。
+为区分于默认工具链安装，并防止 openEuler GCC Toolset 副版本编译工具链安装与默认编译工具链安装之间的依赖库冲突，将此工具链命名为 gcc-toolset-14，其软件包名均以前缀`gcc-toolset-14-`开头，后接原有工具链软件包名。同时，考虑到默认编译工具链安装路径为`/usr`，为避免路径重叠，特将 gcc-toolset-14 安装路径设定为`/opt/openEuler/gcc-toolset-14/`。为了与开源 GCC 做出区分，也便于后期合入更多 openEuler 社区特性，gcc-toolset-14-gcc 的版本设置为 14.3.1。
 
 副版本编译工具链 gcc-toolset-14 提供的应用程序和库不会取代系统默认GCC版本，其包含的应用程序和库旨在与系统默认编译工具链版本并存，而非取代或覆盖它们，亦不会自动设为默认或首选选项。此外，为了实现低成本切换编译工具链版本，便于版本切换与管理，本方案引入 scl-utils 版本切换工具，具体使用和切换方式见下文。
+
+#### 动态库拆分
+
+多版本GCC中，将当前多版本GCC中比系统GCC中新增的GLIBCXX 新增的符号制作成为一个libstdc++_nonshared.a静态库，相当于把高版本GCC14的libstdc++分成了两个部分：
+
+1. 与系统默认版本一致的动态库.so文件；
+2. 高版本libstdc++库中增加的non-shared部分。
+
+并将这两部库集成在gcc-toolset-14提供的路径为/opt/openEuler/gcc-toolset-14/root/usr/lib/gcc/aarch64-openEuler-linux/14/libstdc++.so的动态库中，该文件不是一个ELF文件，而是文本文件，对于用户可无感的链接和使用。
+
+```ELF
+/* GNU ld script
+   Use the shared library, but some functions are only in
+   the static library, so try that secondarily.  */
+OUTPUT_FORMAT(elf64-littleaarch64)
+INPUT ( /usr/lib64/libstdc++.so.6 -lstdc++_nonshared )
+```
+
+- `OUTPUT_FORMAT(elf64-littleaarch64)` ：指定输出文件的格式，这里是针对基于 ARM 架构的 64 位小端字节序 ELF 格式。
+
+- `INPUT ( /usr/lib64/libstdc++.so.6 -lstdc++_nonshared )`：指定了两个输入文件，其中/usr/lib64/libstdc++.so.6是上文提到的系统默认libstdc++库，与系统GCC版本有关。`-lstdc++_nonshared`是指链接当前目录下的libstdc++_nonshared.a静态库，这个静态库就是将多版本GCC中对比系统GCC中新增的符号制作成为的静态库。
+
+INPUT 的作用是指示链接器在链接过程中使用指定的动态库和静态库，以解析程序中对 C++ 标准库的引用。首先尝试使用动态库，如果某些函数只在静态库中存在，则尝试使用静态库。
+
+当使用高版本GCC编译应用时，会把两部分都链接进去，其中non-shared部分是通过静态链接的方式。当应用在只含有低版本GCC的OS上运行时，可以正确地找到libstdc++库中的符号。从而可以实现在低版本GCC上运行高版本GCC构建应用的场景，可解决跨系统构建过程中的兼容性问题。
+
+注：在[CentOS](https://mirror.stream.centos.org/9-stream/AppStream/source/tree/Packages/)和RedHat等发行版中，也有类似的设计。
 
 ## 安装与部署
 
@@ -138,7 +165,7 @@ scl enable gcc-toolset-14 bash
 
 1. openEuler GCC Toolset 14 副版本编译工具链提供如下两种使用方式：
 
-    1）动态链接：默认场景下会自动添加选项 -lstdc++ 进行动态链接，此时会链接系统库动态库 /usr/lib64/libstdc++.so.6 和 GCC-14 副版本提供的 libstdc++_nonshared.a 静态库，此静态库是 GCC-14 相比于 GCC-12 新增的稳定 C++ 特性；\
-    2）静态链接：用户使用选项 -static 进行静态链接，此时会链接 GCC-14 副版本提供的 libstdc++.a 全量特性静态库，该静态库路径为 `/opt/openEuler/gcc-toolset-14/root/usr/lib/gcc/aarch64-openEuler-linux/14/libstdc++.a`。
+   1）动态链接：默认场景下会自动添加选项 -lstdc++ 进行动态链接，此时会链接系统库动态库 `/usr/lib64/libstdc++.so.6` 和 GCC-14 副版本提供的 `libstdc++_nonshared.a` 静态库，此静态库是 GCC-14 相比于 GCC-12 新增的稳定 C++ 特性；
+   2）静态链接：用户使用选项 -static 进行静态链接，此时会链接 GCC-14 副版本提供的 libstdc++.a 全量特性静态库，该静态库路径为 `/opt/openEuler/gcc-toolset-14/root/usr/lib/gcc/aarch64-openEuler-linux/14/libstdc++.a`。
 
-2. 用户默认构建使用动态链接，会链接新增的 libstdc++_nonshared.a 静态库，该库为了保持和系统兼容性，仅对 C++ 中正式标准特性进行封装。对于 -fmodules-ts，-fmodule-header 等选项，属于 C++20 的模块特性，而该特性在 C++20 中仍属于实验性质，并未封装在 libstdc++_nonshared.a 中，若用户需要使用此类新增特性，建议直接使用静态链接的方式全量链接 GCC-14 副版本的静态库。
+2. 用户默认构建使用动态链接，会链接新增的 `libstdc++_nonshared.a` 静态库，该库为了保持和系统兼容性，仅对 C++ 中正式标准特性进行封装。对于 -fmodules-ts，-fmodule-header 等选项，属于 C++20 的模块特性，而该特性在 C++20 中仍属于实验性质，并未封装在 `libstdc++_nonshared.a` 中，若用户需要使用此类新增特性，建议直接使用静态链接的方式全量链接 GCC-14 副版本的静态库。
