@@ -39,7 +39,7 @@
 
 #### 1.3.2、责任与权力
 
-+  **评审PR**：对Contributor提交的PR完成评审，评审可以参考社区的[编程建议]()和[安全编程规范](); 
++  **评审PR**：对负责仓库的所有提交的PR完成评审，评审可以参考社区的[编程建议]()和[安全编程规范]()；评估负责仓库的新合入MR是否需要同步到不同分支；
 +  **分发处理问题**:请参考“[问题处理流程]()“。
 +  **跟踪依赖性问题**：在开发分支中，其他SIG组的软件包的更新可能会到导致破坏本SIG内软件包的依赖关系。此时Committer会收到告警提示，Committer应尽力重建软件包。依赖关系出错可能会使最终用户无法更新系统，打包团队也会介入并重建存在依赖性问题的软件包，但Maintainer不应依赖这些重建。
 +  **如有接口变更，通知可能会影响到的SIG**：其他SIG或项目会依赖本SIG的软件包，对软件包接口的变更可能会对他们造成影响。Maintainer应了解并评审&决策变更造成的依赖影响，并公告和发送API或ABI变更的告警邮件。这类公告应在变更发生至少一周前完成，并应通知到所有可能受影响的SIG。具体请参考[接口变更通知流程]()。
@@ -101,7 +101,7 @@
 
 ### 2.4、Maintainer的角色设置
 1、Maintainer 数量一般不超过7人。
-2、Maintainer 中包含一位常任 Maintainer，代表 Kernel SIG 参与技术委员会，并向技术委员会汇报。
+2、Maintainer 中包含一位常任 Maintainer，代表 Compiler SIG 参与技术委员会，并向技术委员会汇报。
 
 ### 2.5、Maintainer的产生
 * 情形一：首任常任 Maintainer 由项目发起方产生。常任 Maintainer 申请不再担任时，可以提名一位继
@@ -109,11 +109,11 @@
 * 情形二：现任 Maintainer 可以提名 Maintainer 候选人，候选人一般为SIG组内Committer。
 * 情形三：现任 Maintainer 提出不再担任时，可以同时提名一位 Maintainer 候选人继任，候选人一般为SIG组内Committer。
 
-如出现如上情形，SIG 会议决策通过，，可以成为Maintainer。
+如出现如上情形，SIG 会议决策通过，可以成为Maintainer。
 
 ### 2.6、Maintainer的退出
 * 情形一：现任 Maintainer 向 SIG 组申请不再担任。
-* 情形二：现任 Committer 连续**3个月**未参与 SIG 组工作。
+* 情形二：现任 Maintainer 连续**3个月**未参与 SIG 组工作。
 * 情形三：不能胜任 Maintainer 的工作。
 
 如出现如上情形，经 Maintainer 提出，经 SIG 会议决策，可以取消其 Maintainer 的资格。
