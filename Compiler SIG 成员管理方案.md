@@ -125,4 +125,4 @@
 * [openEuler社区行为准则](https://www.openeuler.org/zh/community/conduct/)
 * [openEule社区角色说明](https://www.openeuler.org/zh/sig/role-description/)
 * [openEuler社区SIG组成员管理方案](https://www.openeuler.org/zh/blog/georgecao/openEuler-sig-member-management.html)
-* [openEuler版本分支维护规范](https://gitee.com/openeuler/release-management/blob/master/Goverance/openEuler%E7%89%88%E6%9C%AC%E5%88%86%E6%94%AF%E7%BB%B4%E6%8A%A4%E8%A7%84%E8%8C%83.md)
+* [openEuler版本分支维护规范](https://atomgit.com/openeuler/release-management/blob/master/Goverance/openEuler%E7%89%88%E6%9C%AC%E5%88%86%E6%94%AF%E7%BB%B4%E6%8A%A4%E8%A7%84%E8%8C%83.md)
