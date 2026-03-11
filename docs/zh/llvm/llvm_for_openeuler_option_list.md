@@ -1,3 +1,9 @@
+# LLVM for openEuler 用户手册
+
+LLVM for openEuler 编译器基于开源 LLVM 软件进行深度打造，是面向服务器互联网行业、数据中心新应用、通算 AI 新场景和视频编解码等高算力场景的高性能编译器。同时在 openEuler 社区打造国内的 LLVM 基线，提供高性能、安全可靠、易创新的 LLVM 下游社区的稳定发行版，已支持主流的系统语言（C/C++）和芯片架构（X86/AArch64/RISCV/LoongArch 等）。
+
+> 注：本文档支持的选项如无特殊说明仅在主版本 LLVM 17 上支持，如在 LLVM 18/19/20 等副版本支持会额外说明。
+
 # LLVM for openEuler 优化选项列表
 
 LLVM for openEuler 支持通过 `-mllvm` 驱动的自定义优化选项，由于基于鲲鹏架构优化，使能自定义优化选项通常需要指定鲲鹏架构，如 `-mcpu=tsv110`
@@ -56,7 +62,7 @@ LLVM 的 Indirect Call Promotion (ICP) 优化通过反馈信息将 hot 的间接
 
 ## `-mllvm -enable-aggressive-inline=<true|false>`
 
-不考虑源码中的 `__attribute__((noinline))` 限制，强制将该类函数视为普通函数来判断是否进行 inline 优化
+不考虑源码中的 `__attribute__((noinline))` 限制，强制将该类函数视为普通函数来判断是否进行 inline 优化。
 
 默认值：false
 
@@ -92,11 +98,37 @@ LLVM 的 Indirect Call Promotion (ICP) 优化通过反馈信息将 hot 的间接
 
 支持范围：当前语言支持 C/C++，后端支持 AArch64
 
+## `-mllvm -disable-aarch64-lit-all=<true|false>`
+
+循环俚语优化用于识别广泛应用中常见的循环格式，使用 AArch64 SVE 等灵活的指令能力将其转换为优化版本的循环实现，来大幅提升循环的执行效率。设置为 true 时关闭该优化。
+
+默认值：false
+
+支持范围：当前语言支持 C/C++，后端支持 AArch64
+
+## `-mllvm -enable-loop-vectorize-prepare=<true|false>`
+
+在循环矢量化优化前新增一个预处理的优化 Pass，用于指导部分循环进行矢量化的方式，如在仅支持 SVE 但不支持 SVE2 的 AArch64 机器上，部分 NEON 指令的灵活性要高于 SVE 指令，则在一些场景上使用 NEON 矢量化性能要好于使用 SVE 矢量化，该优化可以指导生成 NEON 矢量化的方案。
+
+默认值：true
+
+支持范围：当前语言支持 C/C++，后端支持 AArch64/X86
+
+## `-mllvm -inline-memcpy-threshold=<num>`
+
+对于静态未知拷贝长度的 memcpy 函数调用，通常情况下不会进行内联，该优化可以进行 memcpy 函数的内联并设置一个阈值，在运行时检查拷贝长度小于阈值时调用内联版本的 memcpy 实现，否则依旧进行 memcpy 函数调用。设置为 0 时关闭优化。
+
+默认值：0
+
+支持范围：当前语言支持 C/C++，后端支持 AArch64/X86
+
 # LLVM for openEuler 功能选项列表
 
 ## `-fgcc-compatible`
 
 开启 LLVM for openEuler 对 GCC 编译器的兼容性特性，包括但不限于将 LLVM 编译器不识别的 GCC 功能性选项的告警严重程度从 error 降级至 warning、兼容 GCC 扩展语法等。
+
+> 支持版本：LLVM 17/19
 
 ## `clang-tidy --checks='-*,BSCompatibility*' --export-details=output.yaml demo.c`
 
@@ -112,16 +144,30 @@ LLVM 的 Indirect Call Promotion (ICP) 优化通过反馈信息将 hot 的间接
 
 该脚本也可以将 output.yaml 转化为 stats.xlsx 的表格形式。
 
+> 支持版本：LLVM 17/19
+
 ## `-mcpu=<CPU-name>`
 
 通过 `-mcpu=<CPU-name>` 选项指定当前的 CPU 型号，使能该 CPU 所有默认支持的硬件特性。在使能对应的微架构亲和选项后，LLVM for openEuler 会依据对应微架构的指令特征进行指令流水线调优，提升性能。
 
 鲲鹏硬件平台与该选项的配置项对应关系如下：
 
-|硬件平台|配置项|
-|-|-|
-|鲲鹏920|tsv110|
-|HiSilicon HIP09|hip09|
-|HiSilicon HIP10c|hip10c|
-|HiSilicon HIP11|hip11|
-|鲲鹏950|hip12|
+|硬件平台|配置项|支持版本|
+|-|-|-|
+|鲲鹏920|tsv110|LLVM 17/18/19/20|
+|HiSilicon HIP09|hip09|LLVM 17|
+|HiSilicon HIP10c|hip10c|LLVM 17|
+|HiSilicon HIP11|hip11|LLVM 17|
+|鲲鹏950|hip12|**LLVM 17/18/19/20**|
+
+## `export LLVM_PROFILE_RESET_SIGNUM=[40, 64]`
+
+用户可以通过 `LLVM_PROFILE_RESET_SIGNUM` 环境变量自定义一个信号，当一个已经使能 PGO 插装的程序在运行过程中接收到这个信号时，程序会将已经采集的 PGO 数据清空并开始重新采集，这能够让用户自定义选择开始采集 PGO 数据的时间。信号支持的范围是 [40, 64] 的闭区间。
+
+> 支持版本：LLVM 19
+
+## `-fprofile-use-dir=<PATH>`
+
+使用 PGO 功能插装采样收集完反馈信息后，会生成一个或多个采样文件，此时需要额外一个步骤使用 `llvm-profdata merge` 命令将采样文件合并转化为 LLVM PGO 优化输入需要的文件格式，该选项可以省略这个步骤，只需指定采样文件目录，可以自动进行采样文件的合并和格式转换，方便用户进行使用。
+
+> 支持版本：LLVM 19
