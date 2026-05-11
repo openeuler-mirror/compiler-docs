@@ -6,6 +6,8 @@ sections:
     href: ./kernel_fdo_user_guide.md
   - label: LTO User Guide
     href: ./lto_user_guide.md
+  - label: GCC Base Performance Optimization Guide
+    href: ./gcc_basic_performance_optimization_user_guide.md
   - label: Alternative GCC 14 User Guide
     href: ./gcc_14_secondary_version_compilation_toolchain_user_guide.md
   - label: PIN User Guide
