@@ -1,0 +1,6 @@
+label: Go User Guide
+isManual: true
+description: Go for openEuler is developed based on open-source Go, focusing on the optimization of the Go language.
+sections:
+  - label: Introduction to Go Optimization
+    href: ./golang_user_guide.md
