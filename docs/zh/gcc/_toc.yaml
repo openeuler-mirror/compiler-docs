@@ -7,7 +7,7 @@ sections:
   - label: 链接时优化特性
     href: ./lto_user_guide.md
   - label: GCC优化特性
-    href: ./gcc_optimization_user_guide.md
+    href: ./gcc_basic_performance_optimization_user_guide.md
   - label: GCC14副版本编译工具链
     href: ./gcc_14_secondary_version_compilation_toolchain_user_guide.md
   - label: GCC插件框架特性
