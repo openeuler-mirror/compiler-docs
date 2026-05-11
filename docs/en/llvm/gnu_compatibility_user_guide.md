@@ -68,7 +68,7 @@ Clang does not support the `print-multi-os-directory` option that GCC uses to re
 
 Hardcode the **lib** path into the code that requires it.
 
-### __builtin_longjmp and __builtin_setjmp Not Supported
+### "__builtin_longjmp" and "__builtin_setjmp" Not Supported
 
 #### Error Message
 
