@@ -14,3 +14,9 @@ sections:
     href: ./gcc_14_secondary_version_compilation_toolchain_user_guide.md
   - label: PIN User Guide
     href: ./pin_user_guide.md
+  - label: Compile Time Optimization User Guid
+    href: ./compile_time_optimization_user_guide.md
+  - label: D-FOT User Guide
+    href: ./dfot_user_guide.md
+  - label: CFGO User Guide
+    href: ./cfgo_user_guide.md
