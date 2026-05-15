@@ -1,0 +1,6 @@
+label: BiSheng-Autotuner User Guide
+isManual: true
+description: BiSheng-Autotuner is an automatic compilation and optimization tool that works in conjunction with tunable compilers, such as LLVM for openEuler and GCC for openEuler.
+sections:
+  - label: BiSheng-Autotuner User Guide
+    href: ./bisheng_autotuner_user_guide.md
