@@ -1,0 +1,6 @@
+label: ANNC User Manual
+isManual: true
+description: ANNC is a compiler focused on accelerating neural network computation. It improves inference performance for recommendation systems and large models, and supports integration with mainstream open-source inference frameworks.
+sections:
+  - label: ANNC User Manual
+    href: ./annc_user_manual.md

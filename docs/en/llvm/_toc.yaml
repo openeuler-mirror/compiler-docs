@@ -1,0 +1,14 @@
+label: LLVM User Guide
+isManual: true
+description: The LLVM for openEuler compiler is developed based on the open-source LLVM.
+sections:
+  - label: LLVM PGO User Guide
+    href: ./llvm_pgo_user_guide.md
+  - label: Kernel PGO User Guide
+    href: ./kernel_pgo_user_guide.md
+  - label: GNU Compatibility User Guide
+    href: ./gnu_compatibility_user_guide.md
+  - label: New Architecture Support
+    href: ./more_architecture_supported.md
+  - label: LLVM for openEuler Optimization Options
+    href: ./llvm_for_openeuler_option_list.md
