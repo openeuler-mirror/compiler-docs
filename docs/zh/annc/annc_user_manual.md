@@ -266,6 +266,8 @@ ANNC_FLAGS="--gemm-opt"  XLA_FLAGS="--xla_cpu_enable_xnnpack=true" ./bazel-bin/t
     --xla_cpu_compilation_enabled=true
 ```
 
+`--gemm-opt` 选项启用了所有 GEMM 相关优化，包括常量折叠（layout-matmul）。关于常量折叠优化的详细原理和架构说明，请参见 [常量折叠优化](./constant_folding.md)。
+
 ### 3.5 Remapper(Tensorflow)图融合优化
 
 该特性基于原生Tensorflow框架开发，在Remapper优化器中调用ANNC graph optimizer优化。

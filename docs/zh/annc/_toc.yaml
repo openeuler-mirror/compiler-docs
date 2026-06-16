@@ -4,3 +4,5 @@ description: ANNC是专注于加速神经网络计算的编译器，加速推荐
 sections:
   - label: ANNC使用手册
     href: ./annc_user_manual.md
+  - label: 常量折叠优化
+    href: ./constant_folding.md
