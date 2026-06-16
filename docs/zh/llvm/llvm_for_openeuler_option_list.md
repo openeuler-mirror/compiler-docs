@@ -171,3 +171,23 @@ LLVM 的 Indirect Call Promotion (ICP) 优化通过反馈信息将 hot 的间接
 使用 PGO 功能插装采样收集完反馈信息后，会生成一个或多个采样文件，此时需要额外一个步骤使用 `llvm-profdata merge` 命令将采样文件合并转化为 LLVM PGO 优化输入需要的文件格式，该选项可以省略这个步骤，只需指定采样文件目录，可以自动进行采样文件的合并和格式转换，方便用户进行使用。
 
 > 支持版本：LLVM 19
+
+## 编译时长优化
+
+ThinLTO 优化 (选项 `-flto=thin`) 是 LLVM for openEuler 编译器里常见的编译优化手段，传统的编译流程是将每个源码文件各自编译生成目标对象文件，最后再链接生成可执行程序，源码文件之间信息不互通，无法进一步优化，而在 ThinLTO 模式下，源码文件首先编译生成 LLVM IR 格式的文件，在链接时把所有文件整合成一个文件进行深度优化，类似于所有的源码都写在了同一个文件当中，优化更彻底。
+
+但是，ThinLTO 优化会大幅度增加编译时长，在构建大型应用的时候尤其明显。ThinLTO Split 技术通过在编译流程中进一步将编译单元进行分块并行编译，加速编译效率。选项使能方式如下：
+
+`-flto=thin -fuse-ld=lld -Wl,-mllvm,-thinlto-split=true -Wl,-mllvm,-thinlto-split-partitions=<num>`
+
+- `-fuse-ld=lld`: ThinLTO Split 特性需要依赖 lld 链接器
+- `-Wl,-mllvm,-thinlto-split=<true|false>`: 使能 ThinLTO Split 特性，默认为 false
+- `-Wl,-mllvm,-thinlto-split-partitions=<num>`: 设置并行分块数量，不添加该选项时编译器将自动合理设置分块数量
+
+使能 ThinLTO Split 特性后会使得 Debuginfo 信息膨胀数倍，可能导致链接时寻址溢出，此时可以使用 `dwarfutils` 工具消除冗余的 Debuginfo 信息，减少二进制体积。工具使用方式如下：
+
+`llvm-dwarfutils --garbage-collection <INPUT_BINARY> <OUTPUT_BINARY>`
+
+> 注：`--garbage-collection` 选项用于消除冗余 Debuginfo 信息
+
+支持范围：当前语言支持 C/C++，后端支持 AArch64/X86
