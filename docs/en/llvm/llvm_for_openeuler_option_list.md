@@ -76,7 +76,6 @@ Default value: `true`
 
 Supported scope: It currently supports C/C++ for the frontend, and only `-mcpu=tsv110` for the backend.
 
-
 ## `-fno-plt`
 
 Conventional dynamic library function calls require jumping through the Procedure Linkage Table (PLT), resulting in extra memory accesses and branch instructions. Enabling this option optimizes calls to directly use the function address in the Global Offset Table (GOT), eliminating PLT jump overhead.
