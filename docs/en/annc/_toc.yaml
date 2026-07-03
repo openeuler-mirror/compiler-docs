@@ -4,3 +4,5 @@ description: ANNC is a compiler focused on accelerating neural network computati
 sections:
   - label: ANNC User Manual
     href: ./annc_user_manual.md
+  - label: Constant Folding
+    href: ./constant_folding.md
