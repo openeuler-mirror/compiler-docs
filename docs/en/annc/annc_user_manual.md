@@ -266,6 +266,8 @@ ANNC_FLAGS="--gemm-opt"  XLA_FLAGS="--xla_cpu_enable_xnnpack=true" ./bazel-bin/t
     --xla_cpu_compilation_enabled=true
 ```
 
+The `--gemm-opt` option enables all GEMM-related optimizations, including constant folding (layout-matmul). For detailed principles and architecture behind constant folding, see [Constant Folding](./constant_folding.md).
+
 ### 3.5 Remapper (TensorFlow) Graph Fusion Optimization
 
 This feature is developed based on the native TensorFlow framework and invokes the ANNC graph optimizer in the Remapper optimizer to perform graph fusion optimization.
