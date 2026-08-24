@@ -311,6 +311,6 @@ export LD_LIBRARY_PATH=/path_to_tensorflow/bazel-bin/tensorflow
 #### 步骤4：使能图融合优化
 
 ```bash
-# 使用Tensorflwo推理时，开启优化选项即可：
-ANNC_FUASED_ALL = 1
+# 使用Tensorflow推理时，开启优化选项即可：
+ANNC_FUSED_ALL = 1
 ```
