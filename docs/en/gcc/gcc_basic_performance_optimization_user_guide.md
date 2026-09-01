@@ -33,7 +33,7 @@ Note: The `-fno-` forms of the first two options are silently accepted.
 
 ### Software Requirements
 
-OS: openEuler 25.03
+OS: openEuler 24.03
 
 ### Hardware Requirements
 
@@ -444,3 +444,25 @@ Writes function and branch information (derived from AutoFDO/PGO profiles) into 
 Add the `-fauto-bolt` option; `-fauto-bolt=<dir>` specifies the profile data directory (default: current directory).
 
 Note: AArch64 only. Not supported with `-flto` (compilation error) and mutually exclusive with `-fbolt-use`; it therefore cannot be combined with the Struct-Reorg family options in this guide, which require `-flto`.
+
+### SVE Memcall Inline Optimization
+
+#### Description
+
+This optimization replaces `memcpy` and `memset` calls with inline SVE loops, reducing library call overhead and improving the performance of small memory operations. It does not support `memmove` and is unsuitable for workloads with frequent large memory operations.
+
+#### How to Use
+
+Add `-march=armv8-a+sve -maarch64-sve-memcall-inlining` to the compilation options.
+
+The related options and parameters are as follows:
+
+| Option or Parameter | Default | Description |
+| --- | --- | --- |
+| `-maarch64-sve-memcall-inlining` | Disabled | Enables SVE memcall inline optimization |
+| `-mno-aarch64-sve-memcall-inlining` | — | Disables SVE memcall inline optimization |
+| `--param=aarch64-sve-memcall-size-threshold=N` | 4096 | Sets the length threshold for SVE inlining, in bytes |
+| `-maarch64-sve-memcall-runtime-check` | Enabled | When the main option is enabled, checks the run-time length and falls back to a library call when the length exceeds the threshold |
+| `-mno-aarch64-sve-memcall-runtime-check` | — | Disables the run-time length check, directly inlining variable-length operations as SVE loops |
+
+Note: Adjust the threshold based on the size distribution of `memcpy` and `memset` operations in the actual workload so that large memory operations fall back to library calls.
