@@ -36,11 +36,11 @@ GCC 编译工具链是一套由 GNU 开发和维护的开源编译器集合，�
 
 在编译过程中，工具链中的软件组件对编译结果具有直接影响。具体而言，GCC、binutils 以及 glibc是其核心要素。glibc 作为 C 语言标准库，其选型通常与操作系统内核版本紧密绑定，不轻易进行更改。本工具链仅包含 GCC 和 binutils 两款软件来满足副版本编译需求。
 
-当前最新的 GCC release 版本为 gcc-14.3.0，因此 openEuler GCC Toolset 工具链选型 的 GCC 的版本为gcc-14.3.0。
+openEuler GCC Toolset 工具链选型的 GCC 版本为 gcc-14.3.0。
 
 至于 binutils，openEuler 24.09 的默认 binutils 为 2.41 版本，而最新的 GCC-14 官方推荐搭配 binutils-2.42 使用，因此本工具链的 binutils 的版本选择 binutils-2.42。
 
-基于此考量，openEuler GCC Toolset 副版本工具链引入 gcc-14.3.0 和 binutils-2.42，此举旨在确保编译环境的稳定性和效率，同时避免不必要的复杂性，力求在保障编译结果质量的同时，优化用户的使用体验。后期待 gcc-14.3.0 在上游社区 release 后，同步更新此工具链 GCC 版本。
+基于此考量，openEuler GCC Toolset 副版本工具链引入 gcc-14.3.0 和 binutils-2.42，此举旨在确保编译环境的稳定性和效率，同时避免不必要的复杂性，力求在保障编译结果质量的同时，优化用户的使用体验。
 
 ### 架构设计
 
@@ -74,6 +74,10 @@ INPUT 的作用是指示链接器在链接过程中使用指定的动态库和�
 当使用高版本GCC编译应用时，会把两部分都链接进去，其中non-shared部分是通过静态链接的方式。当应用在只含有低版本GCC的OS上运行时，可以正确地找到libstdc++库中的符号。从而可以实现在低版本GCC上运行高版本GCC构建应用的场景，可解决跨系统构建过程中的兼容性问题。
 
 注：在[CentOS](https://mirror.stream.centos.org/9-stream/AppStream/source/tree/Packages/)和RedHat等发行版中，也有类似的设计。
+
+### openEuler 优化特性支持
+
+gcc-toolset-14 已合入系统 GCC（gcc 12.3.1）的 openEuler 优化栈，包括反馈优化（CFGO/CSPGO、AutoBOLT，以及 AutoFDO 的 discriminator 支持与 MCF 算法内部增强）、内核反馈优化编译支持（`-fkernel-pgo`，使用方式见[内核反馈优化特性用户指南](kernel_fdo_user_guide.md)）、结构体优化（Struct-Reorg 家族）、循环与向量化优化（`-floop-crc`、`-fif-split`、`-ftree-slp-late`等）、向量数学库（`-fsimdmath`）与 hip10a/hip10c/hip11 处理器支持。其余优化选项说明及与系统 GCC 的差异（未移植、已废弃选项）见[GCC 优化特性用户指南](gcc_optimization_user_guide.md)的"工具链适用性"章节。
 
 ## 安装与部署
 

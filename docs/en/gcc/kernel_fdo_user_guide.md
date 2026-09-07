@@ -4,6 +4,8 @@
 
 The feedback-directed optimization (FDO) of the kernel allows users to build optimized kernels for different applications to improve the application performance in single-application scenarios. In addition, FDO is integrated GCC for openEuler, and A-FOT provides automatic optimization, enabling users to easily enable FDO.
 
+Compiler support is provided by the `-fkernel-pgo` option: under `-fprofile-generate`, it disables TLS storage for instrumentation variables to suit the kernel (which does not support TLS). Both the system GCC and gcc-toolset-14 include this option.
+
 ## Installation and Deployment
 
 ### Software Requirements
@@ -59,6 +61,8 @@ a-fot --config_file ./a-fot.ini -s
 **Note: The `-s` option instructs A-FOT to automatically reboot into the compiled kernel. If you do not want the tool to automatically perform this sensitive operation, omit this option. However, you need to manually reboot and perform the second phase (`--pgo_phase 2`).**
 
 **Note: All paths must be absolute paths.**
+
+**Note: To use gcc-toolset-14, set gcc_path to /opt/openEuler/gcc-toolset-14/root/usr.**
 
 **Note: The kernel of openEuler 23.09 does not support full PGO. Change the value of pgo_mode to arc.**
 
