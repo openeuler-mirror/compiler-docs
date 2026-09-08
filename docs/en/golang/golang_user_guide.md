@@ -39,6 +39,7 @@ The Go compiler is one of the core tools of the Go programming language (also re
 | 29 | Enhanced Prove optimization | Strengthens bound-check proving to eliminate more bound checks. | -gcflags="all=-aggressiveprove" |
 | 30 | bytealg assembly ABI switch | Switches bytealg assembly from ABI0 to the ABIInternal convention. | GOARM64=v8.2,abiinternal |
 | 31 | Function alignment | Sets the function alignment in bytes to optimize icache alignment. | -ldflags="all=-funcalign=32" |
+| 32 | llvm-bolt binary layout optimization support | Reorders the function and basic-block layout of Go binaries with a Golang-capable llvm-bolt, based on perf profiles. | -mappingsymbol -gcflags="all=-d=go119usejumptables=0" (see usage) |
 
 ## Feature Usage Description
 
@@ -337,4 +338,27 @@ Sets the function alignment in bytes (must be a power of two) to optimize instru
 ```bash
 # Perform service compilation.
 go build -ldflags="all=-funcalign=32" .
+```
+
+### llvm-bolt Binary Layout Optimization Support
+
+llvm-bolt is a post-link binary optimizer. It reorders the function and basic-block layout of a binary according to a profile collected at runtime, improving instruction-cache and branch-prediction hit rates. Optimizing a Go binary requires toolchain support: `-mappingsymbol` makes the linker emit ARM64 mapping symbols that tell code from data, `-d=go119usejumptables=0` disables jump tables (the `all=` prefix is mandatory, otherwise standard library packages are not covered), and external linking preserves the relocations. An llvm-bolt build with Golang support is required (openEuler llvm-bolt 18.1.8-2 or later); `-golang=1` detects the Go version and rebuilds the Go runtime metadata after optimization, and `go tool objdump -d` verifies the result.
+
+```bash
+# 1. Perform service compilation.
+go build -tags=bolt -buildmode=pie -mappingsymbol -gcflags="all=-d=go119usejumptables=0" \
+    -ldflags='-linkmode=external -extld=gcc -extldflags "-fuse-ld=gold -no-pie -Wl,--emit-relocs -Wl,--compress-debug-sections=none"' \
+    -o app .
+
+# 2. Sample with perf, collecting branch records on platforms with BRBE.
+perf record -e cycles:u -j any,u -F 1003 -o perf.data -p <pid>
+# Without BRBE, collect cycles samples only.
+perf record -e cycles:u -F 1003 -o perf.data -p <pid>
+
+# 3. Generate the profile; a sample without branch records requires -nl.
+perf2bolt -p perf.data -o app.fdata app
+perf2bolt -nl -p perf.data -o app.fdata app
+
+# 4. Optimize (add -update-debug-sections to keep debug info; the output grows by about a third).
+llvm-bolt app -o app.bolt -data=app.fdata -golang=1 -reorder-blocks=ext-tsp -reorder-functions=hfsort+ -dyno-stats
 ```
