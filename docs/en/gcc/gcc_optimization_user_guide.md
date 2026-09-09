@@ -328,7 +328,7 @@ CFGO enables a bundle of openEuler optimizations alongside PGO profile use; CSPG
 - CFGO instrumentation: `-fcfgo-profile-generate[=<dir>]`; use: `-fcfgo-profile-use[=<dir>]`.
 - CSPGO instrumentation: `-fcfgo-csprofile-generate[=<dir>]`; use: `-fcfgo-csprofile-use[=<dir>]`; directory: `-fcfgo-csprofile-dir=<dir>`.
 
-Note: The CFGO bundle does not include `-fselective-scheduling`. The option is still accepted, but combining it with profile instrumentation (`-fcfgo-profile-generate`/`-fcfgo-csprofile-generate`) carries a known miscompilation risk (statements observed silently dropped on AArch64 with no diagnostic); do not combine them.
+Note: The CFGO bundle does not include `-fselective-scheduling`. The option is still accepted, but combining it with profile instrumentation (`-fcfgo-profile-generate`/`-fcfgo-csprofile-generate`) carries a known mis-compilation risk (statements observed silently dropped on AArch64 with no diagnostic); do not combine them.
 
 ### oeAware Co-Optimization
 
