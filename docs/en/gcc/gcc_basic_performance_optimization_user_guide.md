@@ -4,6 +4,31 @@
 
 The optimization of compiler base performance is crucial to improving the development efficiency, running performance, and maintainability of applications. It is important in both computer science and software development. Based on the general compilation optimization capability, GCC for openEuler enhances middle- and back-end performance optimization technologies, including instruction optimization, vectorization enhancement, prefetch enhancement, and data flow analysis enhancement.
 
+## Toolchain Applicability
+
+The features in this guide apply to the system GCC (gcc 12.3.1) and to gcc-toolset-14 with the openEuler optimization stack merged (see [Alternative GCC 14 User Guide](gcc_14_secondary_version_compilation_toolchain_user_guide.md)), with the following exceptions.
+
+Supported by the system GCC only:
+
+- `-mcmlt-arith`
+- `-fconvert-minmax`
+- `-fsplit-ldp-stp` and `--param=param-ldp-dependency-search-range`
+- `-fllc-allocate` and its associated parameters
+- `-ftree-slp-transpose-vectorize`
+- `--param=vect-alias-flexible-segment-len`
+
+The following system GCC options are retired in gcc-toolset-14. Their positive forms are rejected with an error; remove or replace them in build scripts:
+
+| System GCC option | Behavior in gcc-toolset-14 |
+| ---- | ---- |
+| `-falias-analysis-expand-ssa` | Rejected; the non-loop alias disambiguation it enabled is built in and always active |
+| `-fchrec-mul-fold-strict-overflow` | Rejected; the chain-of-recurrences multiplication folding it enabled is built in and unconditional |
+| `-fmerge-mull` | Rejected; use `-mmul-widen128` |
+| `-fftz` | Rejected; use `-mdaz-ftz` |
+| `-fp-model=` | Rejected; use `-ffp-model=` |
+
+Note: The `-fno-` forms of the first two options are silently accepted.
+
 ## Installation and Deployment
 
 ### Software Requirements
@@ -288,4 +313,134 @@ By analyzing static code characteristics, special scenarios can be identified. W
 
 Add `-O3 -floop-sve-mode-opt` to the option.
 
-Note: The `-floop-sve-mode-opt` option can be enabled only when `-O3` is enabled and SVE is included in the `-march` setting.
+Note: The `-floop-sve-mode-opt` option can be enabled only when `-O3` is enabled and SVE is included in the `-march` setting. The optimization takes effect on AArch64 only.
+
+### -fif-split
+
+#### Description
+
+Splits a composite condition of the form "variable compared with a constant || other condition" and clones the branch body, so IPA constant propagation can propagate the constant into function calls.
+
+#### How to Use
+
+Add the `-fif-split` option.
+
+Note: The `-fif-split` option requires `-O3` to be enabled.
+
+### Vectorization Analysis Parameters
+
+#### Description
+
+Three independent vectorization analysis switches.
+
+#### How to Use
+
+| Option | Default | Description |
+| ---- | ---- | ---- |
+| `--param=vect-swap-operands=[0,1]` | 0 | Allows swapping operands of commutative operations in vectorization analysis. |
+| `--param=addr-expand-for-alias-check=[0,1]` | 0 | Expands data reference addresses for alias checks. |
+| `--param=vect-register-size-check=[0,1]` | 0 | Checks whether a group of interleaved memory accesses exceeds vector register capacity. |
+
+### -ftree-slp-late
+
+#### Description
+
+Runs an additional SLP vectorization pass after reassociation.
+
+#### How to Use
+
+Add the `-ftree-slp-late` option. Disabled by default.
+
+### `-floop-elim`
+
+#### Description
+
+Eliminates redundant loops.
+
+#### How to Use
+
+Add the `-floop-elim` option.
+
+Note: Runs as part of phiopt and depends on `-fssa-phiopt` (enabled by default at `-O1` and higher).
+
+### -farray-widen-compare
+
+#### Description
+
+Rewrites qualifying byte-wise compare loops to compare eight bytes at a time.
+
+#### How to Use
+
+Add the `-farray-widen-compare` option.
+
+Note: Requires `-O3`; effective only on little-endian targets; only the LP64 data model is supported. The compared arrays must remain readable up to the loop bound: the widened 8-byte loads may read bytes past an early exit that the byte-wise loop would never access, so violating this precondition risks out-of-bounds reads.
+
+### `-fbuiltin-will-return`
+
+#### Description
+
+Treats built-ins that cannot loop, throw, or exit (currently only `__builtin_prefetch`) as calls that always return.
+
+#### How to Use
+
+Add the `-fbuiltin-will-return` option.
+
+### `-mmul-widen128`
+
+#### Description
+
+Recognizes 64-bit to 128-bit widening multiplication idioms and generates efficient instruction sequences.
+
+#### How to Use
+
+Add the `-mmul-widen128` option.
+
+Note: AArch64 only. The corresponding system GCC option is `-fmerge-mull`.
+
+### Vector Math Library and Floating-Point Control
+
+#### Description
+
+Vector math library support and floating-point behavior control.
+
+#### How to Use
+
+- `-fsimdmath`: declares vector variants of math functions (`_ZGV*`) and injects libmathlib at link time.
+- `-ffp-model=`: floating-point model control; values: normal/fast/precise/except/strict.
+- `-mdaz-ftz`: sets the FTZ/DAZ flags in the floating-point control register at startup, flushing subnormal values to zero.
+
+Note: The corresponding system GCC spellings of `-ffp-model=` and `-mdaz-ftz` are `-fp-model=` and `-fftz`.
+
+### CFGO / CSPGO
+
+#### Description
+
+CFGO enables a bundle of openEuler optimizations alongside PGO profile use; CSPGO instruments a second time after inlining so profile counts carry call context. gcc-toolset-14 provides the same capability.
+
+#### How to Use
+
+For the options and the full optimization flow, see the [CFGO User Guide](cfgo_user_guide.md). In addition, `-fcfgo-csprofile-dir=<dir>` sets the CSPGO profile directory on its own.
+
+Note: The CFGO bundle does not include `-fselective-scheduling`. The option is still accepted, but combining it with profile instrumentation (`-fcfgo-profile-generate`/`-fcfgo-csprofile-generate`) carries a known miscompilation risk (statements observed silently dropped on AArch64 with no diagnostic); do not combine them.
+
+### oeAware Co-Optimization
+
+#### Description
+
+Emits an ELF section read by the oeAware runtime tuning framework.
+
+#### How to Use
+
+Add the `-foeaware-policy` option; `-foeaware-policy=[1,7]` selects the optimization policy (default: 1).
+
+### AutoBOLT
+
+#### Description
+
+Writes function and branch information (derived from AutoFDO/PGO profiles) into an ELF section at compile time; after linking, bolt-plugin collects it and performs BOLT binary optimization.
+
+#### How to Use
+
+Add the `-fauto-bolt` option; `-fauto-bolt=<dir>` specifies the profile data directory (default: current directory).
+
+Note: AArch64 only. Not supported with `-flto` (compilation error) and mutually exclusive with `-fbolt-use`; it therefore cannot be combined with the Struct-Reorg family options in this guide, which require `-flto`.
