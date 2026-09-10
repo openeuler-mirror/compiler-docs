@@ -36,17 +36,21 @@ GCC 编译工具链是一套由 GNU 开发和维护的开源编译器集合，�
 
 在编译过程中，工具链中的软件组件对编译结果具有直接影响。具体而言，GCC、binutils 以及 glibc是其核心要素。glibc 作为 C 语言标准库，其选型通常与操作系统内核版本紧密绑定，不轻易进行更改。本工具链仅包含 GCC 和 binutils 两款软件来满足副版本编译需求。
 
-当前最新的 GCC release 版本为 gcc-14.2.0，因此 openEuler GCC Toolset 工具链选型 的 GCC 的版本为gcc-14.2.0 。
+openEuler GCC Toolset 工具链选型的 GCC 版本为 gcc-14.3.0。
 
 至于 binutils，openEuler 24.09 的默认 binutils 为 2.41 版本，而最新的 GCC-14 官方推荐搭配 binutils-2.42 使用，因此本工具链的 binutils 的版本选择 binutils-2.42 。
 
-基于此考量，openEuler GCC Toolset 副版本工具链引入 gcc-14.2.0 和 binutils-2.42，此举旨在确保编译环境的稳定性和效率，同时避免不必要的复杂性，力求在保障编译结果质量的同时，优化用户的使用体验。后期待 gcc-14.3.0 在上游社区 release 后，同步更新此工具链 GCC 版本。
+基于此考量，openEuler GCC Toolset 副版本工具链引入 gcc-14.3.0 和 binutils-2.42，此举旨在确保编译环境的稳定性和效率，同时避免不必要的复杂性，力求在保障编译结果质量的同时，优化用户的使用体验。
 
 ### 架构设计
 
-为区分于默认工具链安装，并防止 openEuler GCC Toolset 副版本编译工具链安装与默认编译工具链安装之间的依赖库冲突，将此工具链命名为 gcc-toolset-14 ，其软件包名均以前缀`gcc-toolset-14-`开头，后接原有工具链软件包名。同时，考虑到默认编译工具链安装路径为`/usr`，为避免路径重叠，特将 gcc-toolset-14 安装路径设定为`/opt/openEuler/gcc-toolset-14/`。为了与开源 GCC 做出区分，也便于后期合入更多 openEuler 社区特性，gcc-toolset-14-gcc 的版本设置为 14.2.1 。
+为区分于默认工具链安装，并防止 openEuler GCC Toolset 副版本编译工具链安装与默认编译工具链安装之间的依赖库冲突，将此工具链命名为 gcc-toolset-14 ，其软件包名均以前缀`gcc-toolset-14-`开头，后接原有工具链软件包名。同时，考虑到默认编译工具链安装路径为`/usr`，为避免路径重叠，特将 gcc-toolset-14 安装路径设定为`/opt/openEuler/gcc-toolset-14/`。为了与开源 GCC 做出区分，也便于后期合入更多 openEuler 社区特性，gcc-toolset-14-gcc 的版本设置为 14.3.1 。
 
 副版本编译工具链 gcc-toolset-14 提供的应用程序和库不会取代系统默认GCC版本，其包含的应用程序和库旨在与系统默认编译工具链版本并存，而非取代或覆盖它们，亦不会自动设为默认或首选选项。此外，为了实现低成本切换编译工具链版本，便于版本切换与管理，本方案引入 scl-utils 版本切换工具，具体使用和切换方式见下文。
+
+### openEuler 优化特性支持
+
+gcc-toolset-14 已合入系统 GCC（gcc 12.3.1）的 openEuler 优化栈，包括反馈优化（CFGO/CSPGO、AutoBOLT，以及 AutoFDO 的 discriminator 支持与 MCF 算法内部增强）、内核反馈优化编译支持（`-fkernel-pgo`，使用方式见[内核反馈优化特性用户指南](kernel_fdo_user_guide.md)）、结构体优化（Struct-Reorg 家族）、循环与向量化优化（`-floop-crc`、`-fif-split`、`-ftree-slp-late`等）、向量数学库（`-fsimdmath`）与 hip10a/hip10c/hip11 处理器支持。其余优化选项说明及与系统 GCC 的差异（未移植、已废弃选项）见[GCC 基础性能优化用户指南](gcc_basic_performance_optimization_user_guide.md)的"工具链适用性"章节。
 
 ## 安装与部署
 

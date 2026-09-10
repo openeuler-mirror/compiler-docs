@@ -4,6 +4,8 @@
 
 内核反馈优化（PGO kernel）特性为内核提供了反馈优化能力的支持，使用户可以为不同的应用程序构建针对性优化的内核，在单应用场景下提高目标应用的性能。同时，该特性一并在openEuler GCC内提供了相应的编译支持，以及在A-FOT中提供了自动优化的功能，使用户能够便捷地使能内核反馈优化特性。
 
+编译支持由选项`-fkernel-pgo`提供：在`-fprofile-generate`下关闭插桩变量的 TLS 存储以适配内核（内核不支持 TLS）。系统 GCC 与 gcc-toolset-14 均包含该选项。
+
 ## 安装与部署
 
 ### 软件要求
@@ -58,6 +60,8 @@ a-fot --config_file ./a-fot.ini -s
 **注意：-s选项会让A-FOT工具自动重启机器切换内核，如果用户不希望自动进行这一项敏感操作，请去掉这一选项。但用户需要在重启后手动执行第二阶段（--pgo_phase 2）。**
 
 **注意：所有路径名请使用绝对路径。**
+
+**注意：使用 gcc-toolset-14 时，将 gcc_path 设为 /opt/openEuler/gcc-toolset-14/root/usr。**
 
 **注意*：openEuler 23.09版本的内核暂不支持完整的PGO，请修改pgo_mode值为arc。**
 
