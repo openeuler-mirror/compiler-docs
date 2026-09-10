@@ -36,15 +36,19 @@ The GCC compilation toolchain, developed and maintained by GNU, is a collection 
 
 The software components in the toolchain significantly influence compilation results, with GCC, binutils, and glibc being the core elements. Since glibc, the C standard library, is tightly coupled with the OS kernel version, it remains unchanged. This toolchain includes only GCC and binutils to fulfill the needs of secondary version compilation.
 
-The latest GCC release, gcc-14.2.0, is selected for the openEuler GCC toolset. For binutils, while openEuler 24.09 defaults to version 2.41, the latest GCC 14 recommends binutils-2.42. Thus, binutils-2.42 is chosen for this toolchain.
+The openEuler GCC toolset selects gcc-14.3.0. For binutils, while openEuler 24.09 defaults to version 2.41, the latest GCC 14 recommends binutils-2.42. Thus, binutils-2.42 is chosen for this toolchain.
 
-The openEuler GCC toolset incorporates gcc-14.2.0 and binutils-2.42 as the secondary version toolchain to ensure compilation environment stability and efficiency while minimizing complexity. This approach balances compilation quality and user experience. The toolchain GCC version will be updated to gcc-14.3.0 upon its release by the upstream community.
+The openEuler GCC toolset incorporates gcc-14.3.0 and binutils-2.42 as the secondary version toolchain to ensure compilation environment stability and efficiency while minimizing complexity. This approach balances compilation quality and user experience.
 
 ### Architecture Design
 
-To differentiate from the default toolchain and prevent conflicts, this toolchain is named gcc-toolset-14. Its package names begin with the prefix `gcc-toolset-14-`, followed by the original toolchain package name. To avoid path overlap with the default **/usr** installation path, gcc-toolset-14 is installed in **/opt/openEuler/gcc-toolset-14/**. Additionally, to distinguish it from open source GCC and enable future integration of openEuler community features, the version of gcc-toolset-14-gcc is set to 14.2.1.
+To differentiate from the default toolchain and prevent conflicts, this toolchain is named gcc-toolset-14. Its package names begin with the prefix `gcc-toolset-14-`, followed by the original toolchain package name. To avoid path overlap with the default **/usr** installation path, gcc-toolset-14 is installed in **/opt/openEuler/gcc-toolset-14/**. Additionally, to distinguish it from open source GCC and enable future integration of openEuler community features, the version of gcc-toolset-14-gcc is set to 14.3.1.
 
 The applications and libraries in gcc-toolset-14 coexist with the system default GCC version without replacing or overwriting it. They are not set as the default or preferred option. To simplify version switching and management, the scl-utils tool is introduced. Its usage and switching methods are outlined below.
+
+### openEuler Optimization Feature Support
+
+gcc-toolset-14 has merged the openEuler optimization stack of the system GCC (gcc 12.3.1), including feedback-directed optimizations (CFGO/CSPGO, AutoBOLT, and internal AutoFDO enhancements: discriminator support and the MCF algorithm), kernel FDO compilation support (`-fkernel-pgo`; see the [Kernel FDO User Guide](kernel_fdo_user_guide.md)), structure optimizations (the Struct-Reorg family), loop and vectorization optimizations (`-floop-crc`, `-fif-split`, `-ftree-slp-late`, etc.), the vector math library (`-fsimdmath`), and support for the hip10a/hip10c/hip11 processors. For the remaining option details and differences from the system GCC (options not ported, retired options), see the "Toolchain Applicability" section of the [GCC Basic Performance Optimization User Guide](gcc_optimization_user_guide.md).
 
 ## Installation and Deployment
 
