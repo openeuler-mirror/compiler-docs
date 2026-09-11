@@ -33,7 +33,7 @@
 
 ### 软件要求
 
-操作系统：openEuler 25.03
+操作系统：openEuler 24.03
 
 ### 硬件要求
 
@@ -444,3 +444,25 @@ CFGO 在使用 PGO profile 的基础上联动使能一组 openEuler 优化；CSP
 在选项中加入`-fauto-bolt`即可；`-fauto-bolt=<dir>`指定 profile 数据目录，默认当前目录。
 
 注：仅 aarch64。不支持与`-flto`同时使用（编译报错），与`-fbolt-use`互斥；因此不可与本文中依赖`-flto`的 Struct-Reorg 系列选项组合。
+
+### SVE memcall inline优化
+
+#### 说明
+
+将`memcpy`和`memset`函数调用内联展开为SVE循环，减少库函数调用开销，提升小尺寸内存操作的性能。该优化不支持`memmove`，不适用于大尺寸内存操作频繁的场景。
+
+#### 使用方法
+
+在编译选项中加入`-march=armv8-a+sve -maarch64-sve-memcall-inlining`。
+
+相关选项和参数如下：
+
+| 选项或参数 | 默认值 | 说明 |
+| --- | --- | --- |
+| `-maarch64-sve-memcall-inlining` | 关闭 | 启用SVE memcall inline优化 |
+| `-mno-aarch64-sve-memcall-inlining` | — | 关闭SVE memcall inline优化 |
+| `--param=aarch64-sve-memcall-size-threshold=N` | 4096 | 设置SVE内联的长度阈值，单位为字节 |
+| `-maarch64-sve-memcall-runtime-check` | 开启 | 主开关开启后检查运行时长度，超过阈值时回退为库函数调用 |
+| `-mno-aarch64-sve-memcall-runtime-check` | — | 关闭运行时长度检查，变量长度操作直接内联展开为SVE循环 |
+
+注：建议根据实际负载中`memcpy`和`memset`的长度分布调整阈值，使大尺寸内存操作回退为库函数调用。
