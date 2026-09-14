@@ -39,6 +39,7 @@ GO编译器是Go语言（又称Golang）的核心工具之一，负责将可读�
 | 29 | Prove优化增强            | 增强边界检查证明，消除更多边界检查           | -gcflags="all=-aggressiveprove"              |
 | 30 | bytealg汇编函数切换         | 将bytealg汇编由ABI0切换为ABIInternal约定 | GOARM64=v8.2,abiinternal                      |
 | 31 | 函数对齐                | 设置函数对齐字节数，优化指令缓存对齐          | -ldflags="all=-funcalign=32"                 |
+| 32 | llvm-bolt二进制布局优化支持   | 配合带Golang支持的llvm-bolt，按perf采样重排Go二进制的函数与基本块布局 | -mappingsymbol -gcflags="all=-d=go119usejumptables=0"，详见使用说明 |
 
 ## 特性使用说明
 
@@ -336,4 +337,27 @@ GOARM64="v8.2,abiinternal" GOMAXPROCS=1 go test -bench=. -v -run=^$ bytes
 ```bash
 # 进行业务编译
 go build -ldflags="all=-funcalign=32" .
+```
+
+### llvm-bolt二进制布局优化支持
+
+llvm-bolt是链接后二进制优化器，按程序运行时采集的profile重排函数与基本块布局，提升指令缓存与分支预测命中率。优化Go二进制需要工具链配合：`-mappingsymbol`让链接器生成ARM64 mapping symbols以区分代码与数据，`-d=go119usejumptables=0`关闭jump table（`all=`前缀不可省略，否则标准库不生效），并用外部链接保留重定位；llvm-bolt须使用带Golang支持的版本（openEuler llvm-bolt 18.1.8-2及以上），`-golang=1`自动识别Go版本并在优化后重建Go运行时元数据，可用`go tool objdump -d`校验产物。
+
+```bash
+# 一、进行业务编译
+go build -tags=bolt -buildmode=pie -mappingsymbol -gcflags="all=-d=go119usejumptables=0" \
+    -ldflags='-linkmode=external -extld=gcc -extldflags "-fuse-ld=gold -no-pie -Wl,--emit-relocs -Wl,--compress-debug-sections=none"' \
+    -o app .
+
+# 二、perf 采样：平台支持 BRBE 时采集分支信息
+perf record -e cycles:u -j any,u -F 1003 -o perf.data -p <pid>
+# 平台不支持 BRBE 时只采 cycles 样本
+perf record -e cycles:u -F 1003 -o perf.data -p <pid>
+
+# 三、生成 profile，不带分支信息的采样须加 -nl
+perf2bolt -p perf.data -o app.fdata app
+perf2bolt -nl -p perf.data -o app.fdata app
+
+# 四、优化（如需保留调试信息再加 -update-debug-sections，产物体积约增大三分之一）
+llvm-bolt app -o app.bolt -data=app.fdata -golang=1 -reorder-blocks=ext-tsp -reorder-functions=hfsort+ -dyno-stats
 ```
