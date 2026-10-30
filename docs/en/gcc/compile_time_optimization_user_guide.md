@@ -6,7 +6,7 @@ To improve the compilation efficiency of openEuler software packages and enhance
 
 ## Optimization Technology Principles
 
-Mold is an open-source linker that achieves higher linking efficiency than other linkers such as ld, gold, and lld. It speeds up linking through techniques such as more efficient identical COMDAT folding (ICF) algorithm, better parallel programming, and efficient multithreaded libraries. For more details, see <https://github.com/rui314/mold/blob/main/docs/design.md>.
+Mold is an open-source linker that achieves higher linking efficiency than other linkers such as ld, gold, and lld. It speeds up linking through techniques such as more efficient identical COMDAT folding (ICF) algorithm, better parallel programming, and efficient multithreaded libraries. For more details, see <https://github.com/rui314/mold/blob/main/docs/>.
 
 PGO uses the profiling information during program running to guide compilation optimization, thereby improving program performance. The profiling information includes the function call frequency and branch behavior.
 
