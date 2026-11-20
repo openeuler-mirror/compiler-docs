@@ -6,7 +6,7 @@
 
 ## 优化技术原理
 
-Mold：是一种对比其他链接器（ld、gold、lld）链接效率更高的开源链接器，其通过更高效的Identical Comdat Folding（ICF）算法、更好的并行编程，更高效的多线程库等技术来提升链接的效率，具体可参考：<https://github.com/rui314/mold/blob/main/docs/design.md>。
+Mold：是一种对比其他链接器（ld、gold、lld）链接效率更高的开源链接器，其通过更高效的Identical Comdat Folding（ICF）算法、更好的并行编程，更高效的多线程库等技术来提升链接的效率，具体可参考：<https://github.com/rui314/mold/blob/main/docs/>。
 
 PGO：利用程序运行时的剖析信息来指导编译优化，以提高程序的性能，运行时的剖析信息包括函数调用频率，分支走向等。
 
