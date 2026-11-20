@@ -76,7 +76,7 @@ To build `BiSheng-Autotuner` from source code, refer to the following steps:
 
 ### Running BiSheng-Autotuner
 
-This section uses CoreMark as an example to describe how to run automatic tuning. You can obtain the CoreMark source code from the [GitHub community](https://github.com/eembc/coremark). For more details about how to use llvm-autotune, refer to the [Help](# Help) section. The following is an example script for tuning CoreMark with 20 iterations:
+This section uses CoreMark as an example to describe how to run automatic tuning. You can obtain the CoreMark source code from the [GitHub community](https://github.com/eembc/coremark). For more details about how to use llvm-autotune, refer to the [Help](#Help) section. The following is an example script for tuning CoreMark with 20 iterations:
 
 ```bash
 export AUTOTUNE_DATADIR=/tmp/autotuner_data/
