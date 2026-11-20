@@ -11,7 +11,7 @@
 
 ## Preparing the Environment
 
-* Install the openEuler operating system. For details, see the [*openEuler Installation Guide*](https://docs.openeuler.openatom.cn/en/docs/24.03_LTS_SP2/server/installation_upgrade/installation/installation_on_servers.html).
+* Install the openEuler operating system. For details, see the [*openEuler Installation Guide*](https://docs.openeuler.openatom.cn/en/docs/25.09/server/installation_upgrade/installation/installation_preparations.html).
 
 ### Install the dependency
 
